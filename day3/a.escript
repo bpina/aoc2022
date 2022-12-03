@@ -9,7 +9,6 @@ find_incorrect_items(Left, Right) ->
   sets:to_list(ItemSet).
 
 prioritize_item(Item) ->
-  io:format("Prioritizing: ~p~n", [Item]),
   if
     Item - 97 >= 0 -> Item - 96;
     true -> Item - 65 + 27
@@ -17,15 +16,12 @@ prioritize_item(Item) ->
 
 prioritize_items(Bags) -> prioritize_items(Bags, []).
 
-prioritize_items([], AllPriorities) -> 
-  io:format("priorities: ~p~n", [AllPriorities]),
-  AllPriorities;
+prioritize_items([], AllPriorities) -> AllPriorities;
 
 prioritize_items(Bags, AllPriorities) ->
   [Bag | Rest] = Bags,
   {Left, Right} = split_compartments(Bag),
   IncorrectItems = find_incorrect_items(Left, Right),
-  io:format("Compartments: ~p - ~p~nIncorrect: ~p~n~n", [Left, Right, IncorrectItems]),
   Priorities = [prioritize_item(Item) || Item <- IncorrectItems],
 
   prioritize_items(Rest, AllPriorities ++ Priorities).
